@@ -1,15 +1,9 @@
 <template>
     <div>
         <form @submit.prevent="uploadForm">
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name">First Name</label>
-                    <input type="text" class="form-control" id="firstname" v-model="firstname">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="lastname">Last Name</label>
-                    <input type="text" class="form-control" id="lastname" v-model="lastname">
-                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="firstname" v-model="name">
                 </div>
                 <div class="form-group">
                     <label for="salary">Salary</label>
@@ -21,6 +15,7 @@
                 </div>
             <center><button type="submit" class="btn btn-primary">SAVE</button></center>
     </form>
+
     <div class="alert alert-success" v-show="success">
         The database has been updated
     </div>
@@ -31,8 +26,7 @@
 export default {
     data() {
         return {
-            firstname: '',
-            lastname: '',
+            name: '',
             salary: '',
             age: '',
             success: false
@@ -42,16 +36,14 @@ export default {
         uploadForm() {
             this.success
             const data = {
-                firstname: this.firstname,
-                lastname: this.lastname,
+                name: this.name,
                 salary: this.salary,
                 age: this.age
             }
             this.$http.post('http://dummy.restapiexample.com/api/v1/create', data)
             .then(response => {
             this.success = true
-            this.firstname = ''
-            this.lastname = '' 
+            this.name = '' 
             this.salary = '' 
             this.age = '' 
             }, error => console.log(error))

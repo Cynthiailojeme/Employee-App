@@ -2,26 +2,25 @@
     <table class="table">
         <thead class="thead-light">
             <tr>
-                <th>ID</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
                 <th scope="col">Salary</th>
                 <th scope="col">Age</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(employee, key) in employees" :key="key">
-                <th>{{ employee.ID }}</th>
-                <td>{{ employee.firstname }}</td>
-                <td>{{ employee.lastname }}</td>
-                <td>{{ employee.salary }}</td>
-                <td>{{ employee.age }} <router-link :to="{name: 'view'}">
+                <th>{{ employee.id }}</th>
+                <td>{{ employee.employee_name }}</td>
+                <td>{{ employee.employee_salary }}</td>
+                <td>{{ employee.employee_age }} 
+                    <router-link :to="{name:'view', params:{id: employee.id}}">
                     <button>View</button> 
                     </router-link>
-                    <router-link :to="{name: 'edit'}">
+                    <router-link :to="{name:'edit',params:{id: employee.id}}">
                     <button>Edit</button> 
                     </router-link>
-                    <button>Delete</button>
+                    <button @click.prevent="del(employee)">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -32,11 +31,6 @@
 export default {
     data() {
         return {
-            id: '',
-            firstname: '',
-            lastname: '',
-            salary: '',
-            age: '',
             employees: []
         }
     },
@@ -52,6 +46,15 @@ export default {
                   this.employees = response.body;
               });
           }
+        },
+        del: function(employee){
+            if (confirm("do you want to delete?")) {
+                this.$http.delete('http://dummy.restapiexample.com/api/v1/delete/'+employee.id)
+                .then(response=>{
+                 console.log(response)
+                     alert("record sucessfully deleted")
+            })
+         }
         }
       }
     }
